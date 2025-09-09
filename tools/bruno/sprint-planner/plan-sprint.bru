@@ -1,0 +1,143 @@
+meta {
+  name: plan-sprint
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8000/plan/sprint
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "sprint": {
+          "id": "SPR-2025-09-42",
+          "name": "Sprint 42",
+          "start_date": "2025-09-15",
+          "end_date": "2025-09-29",
+          "timezone": "UTC",
+          "work_days": 10,
+          "work_hours_per_day": 8,
+          "holidays": ["2025-09-22"]
+      },
+      "teams": [
+          {"id": "TEAM-PLAT", "name": "Platform", "wip_limit": 10},
+          {"id": "TEAM-WEB", "name": "Web", "wip_limit": 8}
+      ],
+      "employees": [
+          {
+              "id": "E1",
+              "name": "Ari Cohen",
+              "role": "Backend Engineer",
+              "team_id": "TEAM-PLAT",
+              "skills": [
+                  {"name": "python", "level": 4},
+                  {"name": "aws", "level": 3},
+                  {"name": "sql", "level": 4}
+              ],
+              "capacity": {"unit": "hours", "available": 64, "notes": "2 days PTO"}
+          },
+          {
+              "id": "E2",
+              "name": "Dana Levy",
+              "role": "Fullstack Engineer",
+              "team_id": "TEAM-WEB",
+              "skills": [
+                  {"name": "react", "level": 4},
+                  {"name": "typescript", "level": 4},
+                  {"name": "python", "level": 3}
+              ],
+              "capacity": {"unit": "hours", "available": 72}
+          },
+          {
+              "id": "E3",
+              "name": "Noam Azulay",
+              "role": "Data Engineer",
+              "team_id": "TEAM-PLAT",
+              "skills": [
+                  {"name": "python", "level": 4},
+                  {"name": "aws", "level": 3},
+                  {"name": "spark", "level": 3}
+              ],
+              "capacity": {"unit": "hours", "available": 56, "notes": "Fridays off"}
+          }
+      ],
+      "tasks": [
+          {
+              "id": "T-101",
+              "title": "User session service",
+              "description": "Build stateless session service with JWT and Redis.",
+              "required_skills": [
+                  {"name": "python", "min_level": 3},
+                  {"name": "aws", "min_level": 2}
+              ],
+              "team_id": "TEAM-PLAT",
+              "priority": 5,
+              "estimate": {"unit": "hours", "value": 24},
+              "dependencies": [],
+              "max_assignees": 2,
+              "must_have": true
+          },
+          {
+              "id": "T-102",
+              "title": "Billing UI polish",
+              "description": "Refactor billing pages; improve accessibility; unit tests.",
+              "required_skills": [
+                  {"name": "react", "min_level": 3},
+                  {"name": "typescript", "min_level": 3}
+              ],
+              "team_id": "TEAM-WEB",
+              "priority": 3,
+              "estimate": null,
+              "dependencies": ["T-101"],
+              "max_assignees": 1,
+              "must_have": false
+          },
+          {
+              "id": "T-103",
+              "title": "Data pipeline for events",
+              "description": "Ingest clickstream into S3, transform with Spark, expose Athena table.",
+              "required_skills": [
+                  {"name": "python", "min_level": 3},
+                  {"name": "spark", "min_level": 3},
+                  {"name": "aws", "min_level": 3}
+              ],
+              "team_id": "TEAM-PLAT",
+              "priority": 4,
+              "estimate": {"unit": "hours", "value": 40},
+              "dependencies": [],
+              "max_assignees": 2,
+              "must_have": true
+          },
+          {
+              "id": "T-104",
+              "title": "Refactor legacy code",
+              "description": "Improve maintainability of legacy modules.",
+              "required_skills": [
+                  {"name": "python", "min_level": 3}
+              ],
+              "team_id": "TEAM-PLAT",
+              "priority": 2,
+              "estimate": null,
+              "dependencies": [],
+              "max_assignees": 1,
+              "must_have": false
+          }
+      ],
+      "constraints": {
+          "max_parallel_tasks_per_person": 1,
+          "allow_cross_team": false,
+          "match_policy": "threshold",
+          "min_skill_level_match": 0,
+          "objective": "maximize_priority_completed",
+          "fallback_estimation": {"enabled": true, "unit": "hours", "default_value": 8}
+      }
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+}
