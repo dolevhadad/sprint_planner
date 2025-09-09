@@ -35,5 +35,3 @@ coverage.xml
 .git
 .gitignore
 
-# Data
-/data/
